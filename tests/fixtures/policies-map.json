@@ -1,0 +1,1 @@
+{"kind":"policies","columns":{"code":"Record ID","vendor":"Supplier ID","coverage":"Coverage","policy_number":"Policy","insurer":"Insurer","currency":"Currency","limit_amount":"Limit","effective_on":"Start","expires_on":"End","additional_insured":"Additional insured","waiver":"Waiver","evidence_ref":"Document"}}

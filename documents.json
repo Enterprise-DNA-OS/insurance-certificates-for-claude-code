@@ -1,11 +1,12 @@
 [
-  {
-    "name": "example",
-    "title": "TODO(author): the first document this industry must produce",
-    "for_each": "select gen_random_uuid() as id, 'Example' as name",
-    "file": "name",
-    "sections": [
-      { "title": "Details", "sql": "select 'replace me' as item, $1::text as record_id" }
-    ]
-  }
+ {"name":"evidence-review","title":"Insurance evidence review","for_each":"select id,code from certificates.vendors where active order by code","file":"code","sections":[
+ {"title":"Supplier and responsibility","layout":"record","sql":"select code,name,owner,region,retention_review from certificates.vendors where id=$1"},
+ {"title":"Recorded contractual requirements","sql":"select pr.name as profile,pr.contract_ref,r.coverage,r.currency,r.minimum_amount,r.additional_insured,r.waiver from certificates.vendors v join certificates.profiles pr on pr.id=v.profile_id join certificates.rules r on r.profile_id=pr.id where v.id=$1 order by r.coverage","note":"Limits are recorded contract requirements, not statutory thresholds."},
+ {"title":"Policy evidence","sql":"select code,coverage,policy_number,insurer,currency,limit_amount,effective_on,expires_on,evidence_ref,verdict,reviewer,review_evidence from certificates.policy_evidence where vendor_id=$1 order by code","note":"Recorded evidence only. A certificate does not amend policy terms or guarantee that a claim is covered."},
+ {"title":"Review and follow-up history","sql":"select created_at,action,actor,note from certificates.activity where vendor_id=$1 order by created_at,id"}
+ ]},
+ {"name":"renewal-brief","title":"Certificate renewal brief","for_each":"select distinct v.id,v.code from certificates.vendors v join certificates.policies p on p.vendor_id=v.id where v.active and p.expires_on<=current_date+60 order by v.code","file":"code","sections":[
+ {"title":"Upcoming or expired certificates","sql":"select p.code,p.coverage,p.expires_on,p.expires_on-current_date as days_left,p.evidence_ref from certificates.policies p where p.vendor_id=$1 and p.expires_on<=current_date+60 order by p.expires_on"},
+ {"title":"Contact owner","layout":"record","sql":"select name,owner,region from certificates.vendors where id=$1","note":"Internal draft. The responsible owner reviews and sends any request."}
+ ]}
 ]

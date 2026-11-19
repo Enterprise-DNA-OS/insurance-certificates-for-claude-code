@@ -1,43 +1,56 @@
 # Insurance Certificates for Claude Code: operating instructions
 
-This file is the brain. Claude Code reads it at the start of every session. It says who this is for, how work gets done, and the one right way to do each recurring job.
+For internal procurement, facilities and insurance evidence reviewers. Business, operator and exact contractual requirements are supplied at installation. Demo records are fictional.
 
-## Who this is for
+Read README.md and docs/compliance.md before making a coverage-related statement. Start every answer from current CLI data. Read before writing, show ambiguous candidates, and never invent evidence or an actor.
 
-- **Business:** [YOUR BUSINESS]
-- **Operator:** [YOUR NAME], [your role]
-- **What matters most:** [the one or two outcomes you care about]
+## One path for each job
 
-Fill this in once. A worker with context knows. A worker without it guesses.
-
-## How to work
-
-1. **Take a brief, not a script.** The operator describes the outcome. You run the right command and present the answer.
-2. **Read before you write.** Before drafting anything about a record, read its full history first.
-3. **Plain language.** Short sentences. No filler. Numbers in tables.
-4. **Silent success, loud problems.** No play-by-play. Say what broke and what you did about it.
-5. **Stop at the line.** Anything that sends, deletes, or faces a customer waits for a yes in this session.
-
-## Routing table: one right way for each recurring job
-
-| When the operator asks for... | Use this |
+| Request | Command |
 |---|---|
-| <!-- TODO(author): one row per slash command --> | `/...` |
+| Supplier responsibility | /vendors |
+| Contract requirements | /profiles |
+| Recorded policies | /policies |
+| Renewals due | /renewals-due |
+| Evidence review queue | /review-queue |
+| Coverage gaps | /requirements-check |
+| Evidence and privacy checks | /compliance |
+| Outstanding evidence | /attention |
+| Weekly insurance evidence meeting | /weekly-review |
+| Supplier file | /record |
+| Review history | /history |
+| Add requirement profile | /add-profile |
+| Add required coverage | /add-rule |
+| Add supplier | /add-vendor |
+| Record policy evidence | /add-policy |
+| Record evidence review | /review |
+| Assign contract requirements | /assign-profile |
+| Log a follow-up | /log |
+| Review retention purpose | /retention-review |
+| Import COISoftware records | /import |
+| Export all records | /export |
+| Draft evidence follow-up | /draft-renewal |
+| Change fields or rules | /customise |
+| Add a read-only report | /new-view |
+| Generate paperwork | /documents |
+| View this week | /view |
 
-If an ask fits nothing here, run the CLI directly (`npm run <cli> -- --help`) and then propose a new command for it.
+The recipes live in .claude/commands/. scripts/certificates.mjs is the only business CLI. Use --json for precise output and --actor on changes. Run help to list the commands. Quote arguments containing spaces.
 
-## Hard rules
+## Rules
 
-- Never send email or messages from here. Draft to `drafts/`, a person sends.
-- Never delete records without an explicit yes in this session. Prefer marking closed or archived.
-- Never invent a record. If a name is ambiguous, list the candidates and ask.
-- The database is the source of truth. If the answer is not in it, say so.
+- Never send a message or issue insurance. Draft locally, show it in chat, and leave sending to the person.
+- Never claim verified coverage from a certificate. Record checks met describes only the recorded fields.
+- Preserve imported raw rows. A changed source row must be reviewed, not silently overwritten.
+- Record renewals as new policies and reviews as append-only entries.
+- Requirements come from the operator's contract. The seed's limits and schedules are fictional examples.
+- No customer or secret data in commits. imports/, exports/, .data/, generated documents and drafts are ignored.
+- No deletion without an explicit request. Retention review records a decision, not automatic disposal.
+- The local database owner is privileged. Shared operation requires separately tested scoped access.
+- Test every rule change on a disposable database before applying a new migration to real records.
 
-## Where things live
+## Files
 
-- `scripts/` the CLI. `scripts/lib/db.mjs` picks `DATABASE_URL` (Postgres, Supabase) or the embedded database in `.data/`.
-- `supabase/migrations/` the schema, plain SQL. `npm run migrate` applies it.
-- `.claude/commands/` the slash commands. Add one every time the same ask comes twice.
-- `docs/` the thesis and the guide for moving off COISoftware.
+supabase/migrations/ holds the schema. scripts/lib/db.mjs chooses local PGlite or DATABASE_URL Postgres. brand.json, documents.json and views.json define the read-only paperwork. docs/replace-coisoftware.md describes the mapped import and its limits.
 
-Built by Enterprise DNA. Installed and run for you as part of Omni: https://enterprisedna.co/omni/instead-of/coisoftware
+Omni by Enterprise DNA installs, customises and operates this desk: https://enterprisedna.co/omni/book?offer=replace-software&utm_campaign=coisoftware&utm_medium=instructions

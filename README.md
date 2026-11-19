@@ -1,115 +1,85 @@
-<h1 align="center">Insurance Certificates for Claude Code</h1>
+# Insurance Certificates for Claude Code
 
-<p align="center">
-  <strong>The open-source insurance certificate review desk that is just a database and Claude Code.</strong>
-</p>
+Know whose insurance evidence is missing, which renewal needs a follow-up, and who checked the policy behind a certificate.
 
-<p align="center">
-  Created by <a href="https://www.enterprisedna.co"><strong>Enterprise DNA</strong></a>. Free and open source. Works with Claude Code, Codex, OpenCode or Cursor.
-</p>
+| Do it yourself | We customise it | We run it for you |
+|---|---|---|
+| Free, MIT licensed. Start with fictional records. | Your coverage names, contract requirements, document intake and COISoftware export mapping. | Installed through Omni by Enterprise DNA. One setup fee, then a retainer. |
+| [Quick start](#quick-start) | [Get your version built](https://enterprisedna.co/omni/book?offer=replace-software&utm_campaign=coisoftware&utm_medium=customise) | [Book a call](https://enterprisedna.co/omni/book?offer=replace-software&utm_campaign=coisoftware&utm_medium=managed) |
 
-<!-- three-doors -->
-<table align="center">
-  <tr>
-    <td align="center"><strong>Do it yourself</strong><br/>Clone it, run it, own it. Free, MIT.<br/><a href="#quick-start">Quick start</a></td>
-    <td align="center"><strong>We customise it</strong><br/>Your fields, your rules, your COISoftware data brought across.<br/><a href="https://enterprisedna.co/omni/book/?utm_source=github&utm_medium=readme&utm_campaign=coisoftware">Book a call</a></td>
-    <td align="center"><strong>We run it for you</strong><br/>Installed, connected and operated inside Omni. Setup fee, then a retainer.<br/><a href="https://enterprisedna.co/omni/instead-of/coisoftware?utm_source=github&utm_medium=readme&utm_campaign=coisoftware">How it works</a></td>
-  </tr>
-</table>
+For procurement, facilities and insurance evidence reviewers. Works with Claude Code, Codex, OpenCode or Cursor. The database is the product. The agent runs the recorded jobs.
 
-<p align="center">
-  <a href="#what-is-this">What is this</a> &bull;
-  <a href="#why-no-front-end">Why no front end</a> &bull;
-  <a href="#quick-start">Quick start</a> &bull;
-  <a href="#the-commands">Commands</a> &bull;
-  <a href="#instead-of-coisoftware">Instead of COISoftware</a> &bull;
-  <a href="#want-it-installed-and-run-for-you">Installed for you</a> &bull;
-  <a href="#license">License</a>
-</p>
-
-<p align="center">
-  <img src="https://img.shields.io/badge/Node-20+-339933?style=flat-square" alt="Node 20+" />
-  <img src="https://img.shields.io/badge/PostgreSQL-any-336791?style=flat-square" alt="PostgreSQL" />
-  <img src="https://img.shields.io/badge/PGlite-embedded-3ecf8e?style=flat-square" alt="PGlite" />
-  <img src="https://img.shields.io/badge/License-MIT-yellow?style=flat-square" alt="MIT License" />
-</p>
-
----
-
-## What is this
-
-Insurance Certificates for Claude Code does the job you pay COISoftware for, as a Postgres database and a set of agent commands. There is no web front end. You open the folder in [Claude Code](https://claude.com/claude-code) (or Codex, OpenCode, Cursor: see `AGENTS.md`) and ask for what you want in plain language. It runs the right query, and it can answer questions the COISoftware dashboard cannot.
-
-<!-- TODO(author): the annual bill. One sentence: what a 10 to 50 person business typically pays COISoftware per year, all in, with a source. -->
-
-Want the same thing with a web front end, or built on a different stack? That is a customisation, and it is exactly what Enterprise DNA does: [book a call](https://enterprisedna.co/omni/book/?utm_source=github&utm_medium=readme&utm_campaign=coisoftware).
-
-<!-- TODO(author): two or three sentences on what this specific product covers and who it is for. -->
-
-## Why no front end
-
-- The front end was only ever there because the database was hard to talk to. That is no longer true.
-- Your data sits in plain Postgres tables you own. Any tool can read them. No export, no lock-in.
-- No seats, no tiers, no add-ons. Read [docs/why-no-front-end.md](docs/why-no-front-end.md) for the honest trade-offs too.
+This is a certificate review desk. It checks recorded evidence against your recorded contractual requirements. It does not issue insurance, assess coverage for a claim, read scanned certificates automatically or send messages. COISoftware also supplies document extraction and hosted intake. [Scope and research](docs/research.md).
 
 ## Quick start
 
-Sixty seconds, no database install (an embedded Postgres runs inside Node):
+Node 20.6 or later on Windows or Linux:
 
 ```bash
-git clone https://github.com/Enterprise-DNA-OS/insurance-certificates-for-claude-code.git
-cd insurance-certificates-for-claude-code
 npm install
 npm run demo
+npm test
+npm run certificates -- requirements-check --json
+npm run view
+npm run docs
 ```
 
-Then open the folder in Claude Code and type a slash command. <!-- TODO(author): name the first command to try. -->
+PGlite stores local records in `.data/db`. `DATABASE_URL` selects Postgres. Use a fresh database for a business: migrate, import, reconcile and review. Never seed fictional data into business records. Demo seeding is idempotent and its dates are relative to first use. All companies, policies and evidence references in the demo are fictional.
 
-### Use it with your own Postgres or Supabase
+## Five weekly jobs
 
-Copy `.env.example` to `.env`, set `DATABASE_URL`, then `npm run migrate`. Same commands, shared data, no per-seat fee.
+1. `/review-queue`: check documents nobody has verified, including changed records.
+2. `/requirements-check`: compare each required coverage with one complete policy record.
+3. `/renewals-due`: list the next 60 days and expired records.
+4. `/attention`: combine coverage gaps with follow-ups older than 14 days.
+5. `/weekly-review`: review coverage, renewals and retention-review dates together.
 
-## The commands
+A requirement is met only by one policy with the right currency and sufficient limit, a current period, recorded required endorsements, a document reference and a current verification. Limits from separate policies are never added. An unknown endorsement is never treated as present. An imported certificate is unreviewed until a person records a check. An expired policy remains in renewal history even after replacement; review the current requirements check alongside it.
 
-<!-- TODO(author): a table of the slash commands in .claude/commands and what each one does. -->
+The expiry date is an exclusive boundary in this date-only desk. On that day it flags the record for review. Actual policy times, exclusions, aggregate exhaustion and claims-made retroactive dates need a reviewer and the full wording. `--on` checks today's recorded evidence against a chosen coverage date. It is not a reconstruction of what was known on that past date. [Rules and sources](docs/compliance.md).
 
-| Command | What it does |
-|---|---|
-| `/...` | ... |
+## Ten questions to ask from your own records
 
-## Instead of COISoftware
+These are working questions the CLI answers today, not unsupported claims that COISoftware cannot answer them.
 
-<!-- TODO(author): how to bring data across from COISoftware; link docs/replace-coisoftware.md -->
+1. Which suppliers have no recorded requirement profile? (`requirements-check`)
+2. Which coverage types have no certificate at all? (`requirements-check`)
+3. Which apparent limit matches use the wrong currency? (`requirements-check`)
+4. Which required endorsements remain unconfirmed? (`requirements-check`)
+5. Which certificates expire within 60 days? (`renewals-due`)
+6. Which current records changed after the last verification? (`review-queue`)
+7. Which future-dated policies leave a gap today? (`requirements-check`)
+8. Which owners have not logged a follow-up in 14 days? (`attention`)
+9. Which suppliers need a retention-purpose review? (`compliance`)
+10. Who recorded each review and follow-up, and what evidence did they cite? (`record`, `history`)
 
-## Architecture
+## Your first hour: ten things to ask for
 
+1. Create our first requirement profile with its contract reference.
+2. Add the required coverage types and currencies.
+3. Add our suppliers and the person responsible for each.
+4. Map an authorised COISoftware vendor export.
+5. Test the import before saving records.
+6. Reconcile supplier counts with the export.
+7. Record a certificate and its document reference.
+8. Verify the full policy and required endorsements.
+9. Put our name, colours and logo in `brand.json`.
+10. Use `/customise` to add our own review rule with a migration and test.
+
+## Bring your records across
+
+```bash
+npm run certificates -- import coisoftware imports/vendors.csv --mapping=imports/vendors-map.json --actor=Reviewer --dry-run
 ```
-insurance-certificates-for-claude-code/
-  CLAUDE.md                 how the operator wants this run (routing table + house rules)
-  AGENTS.md                 the same, for Codex / OpenCode / Cursor / Gemini CLI
-  .claude/commands/         the slash commands
-  scripts/                  the CLI the commands drive
-  scripts/lib/db.mjs        one adapter: DATABASE_URL (pg) or embedded PGlite
-  supabase/migrations/      plain SQL schema
-  supabase/seed.sql         demo data
-  docs/                     the thesis and the migration guide
-```
 
-## Built for coding agents
+Remove `--dry-run` to save. COISoftware documents vendor-list and result exports. The exact headers and result layout are not public, so the saved mapping is required. Synthetic examples in `tests/fixtures` demonstrate this desk's mapping, not an account export verified against the vendor. Vendor imports do not invent coverage. Flat coverage exports can be mapped separately with `kind: policies`; nested or key/value result exports need a reviewed flattening step first. [Switching guide](docs/replace-coisoftware.md).
 
-The database, CLI and command recipes work with Claude Code, Codex, OpenCode or Cursor. Ask your coding agent for a new command and have it implement and test the change against the same records.
+## Documents, views and safe operation
 
-## Contributing
+`npm run docs` produces an evidence review and renewal brief for each relevant supplier. `npm run view` produces a read-only weekly snapshot. `/draft-renewal` writes a local draft for the owner to review. No command sends mail or calls a vendor service.
 
-Issues and pull requests are welcome. Keep the shape: plain SQL, a small CLI, a slash command per recurring job, no front end.
+`export` writes six record sets, including source payloads and append-only history, to a new JSON file. This is an interchange snapshot, not an automatic restore. Back up the database and referenced evidence files separately and test restoration. Generated reports contain private records. Shared use needs scoped authenticated access, protected document storage and tested backups. Database objects revoke PUBLIC access and enable row-level security; the local owner connection is privileged, not a multi-user permission system.
 
-## Want it installed and run for you?
+`npm test` uses a disposable database and exercises all 23 CLI commands, valid and invalid records, rollback, repeated imports, evidence changes, expiry boundaries, immutable history, drafts and escaped HTML. A manual CI workflow covers Windows, Linux and Postgres 16. [CLI reference](docs/cli.md).
 
-Enterprise DNA installs Insurance Certificates for Claude Code for your business, migrates your COISoftware data, connects it to the rest of your tools, and runs it for you as part of **Omni**, our managed Command Center. One setup fee, then a monthly retainer.
-
-- Book a call: [enterprisedna.co/omni/book](https://enterprisedna.co/omni/book/?offer=replace-software&utm_source=github&utm_medium=readme&utm_campaign=coisoftware)
-- Read more: [enterprisedna.co/omni/instead-of/coisoftware](https://enterprisedna.co/omni/instead-of/coisoftware?utm_source=github&utm_medium=readme&utm_campaign=coisoftware)
-
-## License
-
-MIT. Copyright (c) 2026 Enterprise DNA.
+MIT licensed. Not affiliated with COISoftware or Anthropic. Hosting and coding-agent costs are separate. [30 minutes with Sam](https://enterprisedna.co/omni/book?offer=replace-software&utm_campaign=coisoftware&utm_medium=readme).

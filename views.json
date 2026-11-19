@@ -1,14 +1,7 @@
 [
-  {
-    "name": "week",
-    "title": "This week",
-    "subtitle": "Insurance Certificates for Claude Code: what needs attention, rendered by npm run view",
-    "sections": [
-      {
-        "title": "Needs attention",
-        "note": "TODO(author): point this at the industry's attention view (overdue, stuck, quiet).",
-        "sql": "select 'replace me' as item, 'TODO(author)' as why"
-      }
-    ]
-  }
+ {"name":"certificate-week","title":"Certificate evidence this week","subtitle":"Fictional demo until your checked records are imported. Record checks do not establish insurance cover.","sections":[
+  {"title":"Renewals in the next 60 days and expired records","sql":"select * from certificates.renewals"},
+  {"title":"Documents awaiting review","sql":"select * from certificates.review_queue"},
+  {"title":"Owner workload","sql":"select * from certificates.vendor_workload"}
+ ]}
 ]

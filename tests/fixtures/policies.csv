@@ -1,0 +1,2 @@
+Record ID,Supplier ID,Coverage,Policy,Insurer,Currency,Limit,Start,End,Additional insured,Waiver,Document
+IMPORT_PL,IMPORT_A,public_liability,IMPORT-100,Example Insurer,NZD,2000000,2020-01-01,2099-01-01,true,false,imports/evidence.pdf
