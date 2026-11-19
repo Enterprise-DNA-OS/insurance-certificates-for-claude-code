@@ -1,7 +1,21 @@
 [
- {"name":"certificate-week","title":"Certificate evidence this week","subtitle":"Fictional demo until your checked records are imported. Record checks do not establish insurance cover.","sections":[
-  {"title":"Renewals in the next 60 days and expired records","sql":"select * from certificates.renewals"},
-  {"title":"Documents awaiting review","sql":"select * from certificates.review_queue"},
-  {"title":"Owner workload","sql":"select * from certificates.vendor_workload"}
- ]}
+  {
+    "name": "certificate-week",
+    "title": "Certificate evidence this week",
+    "subtitle": "Fictional demo until your checked records are imported. Record checks do not establish insurance cover.",
+    "sections": [
+      {
+        "title": "Renewals in the next 60 days and expired records",
+        "sql": "select vendor,name,replace(coverage,'_',' ') as coverage,expires_on,days_left,owner from certificates.renewals"
+      },
+      {
+        "title": "Documents awaiting review",
+        "sql": "select vendor,name,policy,replace(coverage,'_',' ') as coverage,review_state from certificates.review_queue"
+      },
+      {
+        "title": "Owner workload",
+        "sql": "select vendor,name,owner,profile,policies,verified,last_follow_up::date as last_follow_up from certificates.vendor_workload"
+      }
+    ]
+  }
 ]

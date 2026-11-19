@@ -10,6 +10,7 @@ const tables=['profiles','rules','vendors','policies','reviews','activity'];
 export function day(s){if(!/^\d{4}-\d{2}-\d{2}$/.test(s)||new Date(s+'T00:00:00Z').toISOString().slice(0,10)!==s)throw Error('Expected a valid YYYY-MM-DD date');return s;}
 function code(s){if(!/^[A-Z0-9_-]+$/i.test(s||''))throw Error('Code requires letters, digits, underscores or hyphens');return s.toUpperCase();}
 function amount(s){if(!/^\d{1,14}(\.\d{1,2})?$/.test(String(s)))throw Error('Amount must be a nonnegative decimal with at most two decimal places');return String(s);}
+export function moneyCents(s){const [whole,fraction='']=String(s).split('.');return BigInt(whole)*100n+BigInt(fraction.padEnd(2,'0'));}
 function currency(s){if(!/^[A-Z]{3}$/.test(s||''))throw Error('Currency requires three uppercase letters');return s;}
 function bool(s){if(s===true||s==='true')return true;if(s===false||s==='false')return false; if(s===undefined||s===null||s==='')return null;throw Error('Boolean must be true or false; empty means unknown');}
 const required=(v,n)=>{if(typeof v!=='string'||!v.trim())throw Error('Required: '+n);return v.trim();};
@@ -24,7 +25,7 @@ export async function checks(db,on){
  for(const v of vendors){const rs=rules.filter(r=>r.profile_id===v.profile_id);if(!rs.length){out.push({vendor:v.code,coverage:'all',policy:'',state:'review',finding:'NO_REQUIREMENTS',owner:v.owner});continue;}
  for(const r of rs){const candidates=policies.filter(p=>p.vendor_id===v.id&&p.coverage===r.coverage);const assessed=candidates.map(p=>{const gaps=[];
  if(p.effective_on>on)gaps.push('NOT_YET_EFFECTIVE');if(p.expires_on<=on)gaps.push('EXPIRED');
- if(p.currency!==r.currency)gaps.push('CURRENCY_MISMATCH');else if(Number(p.limit_amount)<Number(r.minimum_amount))gaps.push('LOW_LIMIT');
+ if(p.currency!==r.currency)gaps.push('CURRENCY_MISMATCH');else if(moneyCents(p.limit_amount)<moneyCents(r.minimum_amount))gaps.push('LOW_LIMIT');
  if(!p.evidence_ref)gaps.push('NO_DOCUMENT_REFERENCE');
  if(p.verdict!=='verified'||new Date(p.reviewed_at)<new Date(p.updated_at))gaps.push('REVIEW_REQUIRED');
  if(r.additional_insured&&p.additional_insured!==true)gaps.push('ADDITIONAL_INSURED_UNCONFIRMED');

@@ -6,7 +6,7 @@ import {spawnSync} from 'node:child_process';
 import {getDb,REPO_ROOT} from './lib/db.mjs';
 import {migrate} from './migrate.mjs';
 import {seed} from './seed.mjs';
-import {execute,commandNames,day,display} from './certificates.mjs';
+import {execute,commandNames,day,display,moneyCents} from './certificates.mjs';
 import {parseCsv} from './lib/csv.mjs';
 const tmp=fs.mkdtempSync(path.join(os.tmpdir(),'certificates-test-'));
 process.env.DATA_DIR=path.join(tmp,'db');process.env.OUTPUT_DIR=tmp;process.env.DATABASE_URL=process.env.TEST_DATABASE_URL||'';
@@ -54,7 +54,7 @@ try{
  assert.equal((await db.query("select * from certificates.policies where code='NEW-1'")).length,0,'Import rolls back all rows on late failure');
  fs.writeFileSync(bad,source.replace('2000000','3000000'));await assert.rejects(run('import','coisoftware',bad,'--mapping='+path.join(base,'policies-map.json'),actor),/Changed source/);
  fs.writeFileSync(bad,source.replace('2099-01-01','2020-02-30'));await assert.rejects(run('import','coisoftware',bad,'--mapping='+path.join(base,'policies-map.json'),actor),/date/);
- assert.throws(()=>day('2027-02-29'));assert.throws(()=>parseCsv('A,A\n1,2'));assert.throws(()=>parseCsv('A\n"oops'));
+ assert(moneyCents('99999999999999.98')<moneyCents('99999999999999.99'));assert.equal(moneyCents('1.2'),120n);assert.throws(()=>day('2027-02-29'));assert.throws(()=>parseCsv('A,A\n1,2'));assert.throws(()=>parseCsv('A\n"oops'));
  assert.deepEqual(parseCsv('\ufeffA,B\r\n"line\nnext","say ""yes"""\r\n'),[{A:'line\nnext',B:'say "yes"'}]);
  const boundary=await run('requirements-check','--on=2099-01-01');assert(boundary.find(x=>x.vendor==='TEST').finding.includes('EXPIRED'));
  await assert.rejects(db.query("update certificates.activity set actor='altered'"),/append-only/);
