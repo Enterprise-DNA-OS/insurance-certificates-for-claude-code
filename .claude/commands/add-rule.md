@@ -1,3 +1,7 @@
+---
+description: "Add required coverage"
+---
+
 # Add required coverage
 
 Read CLAUDE.md. Start from current records.

@@ -1,3 +1,7 @@
+---
+description: "Recorded policies"
+---
+
 # Recorded policies
 
 Read CLAUDE.md. Start from current records.

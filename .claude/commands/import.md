@@ -1,3 +1,7 @@
+---
+description: "Import COISoftware records"
+---
+
 # Import COISoftware records
 
 Read CLAUDE.md. Start from current records.

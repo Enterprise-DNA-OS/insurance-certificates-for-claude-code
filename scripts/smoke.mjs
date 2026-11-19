@@ -31,6 +31,7 @@ try{
  assert.equal((await current()).find(x=>x.vendor==='TEST').state,'record checks met');
  await run('review','TEST-PL','--verdict=rejected','--evidence=Correction from broker','--note=Wrong insured',actor);
  assert.equal((await current()).find(x=>x.vendor==='TEST').state,'review');
+ const reviewHistory=(await run('record','TEST')).reviews;assert.equal(reviewHistory.length,2);assert.equal(reviewHistory[0].evidence,'Policy wording and endorsements');assert.equal(reviewHistory[1].verdict,'rejected');
  await run('review','TEST-PL','--verdict=verified','--evidence=Corrected evidence','--note=Insured matched',actor);
  // A changed record invalidates prior evidence, even if the numbers still pass.
  await db.query("update certificates.policies set limit_amount=3000000 where code='TEST-PL'");

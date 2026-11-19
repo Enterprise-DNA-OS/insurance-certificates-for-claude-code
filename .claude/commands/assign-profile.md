@@ -1,3 +1,7 @@
+---
+description: "Assign contract requirements"
+---
+
 # Assign contract requirements
 
 Read CLAUDE.md. Start from current records.

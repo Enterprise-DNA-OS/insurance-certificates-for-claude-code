@@ -1,3 +1,7 @@
+---
+description: "Add supplier"
+---
+
 # Add supplier
 
 Read CLAUDE.md. Start from current records.

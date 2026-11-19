@@ -1,3 +1,7 @@
+---
+description: "Add requirement profile"
+---
+
 # Add requirement profile
 
 Read CLAUDE.md. Start from current records.

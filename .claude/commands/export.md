@@ -1,3 +1,7 @@
+---
+description: "Export all records"
+---
+
 # Export all records
 
 Read CLAUDE.md. Start from current records.

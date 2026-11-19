@@ -1,3 +1,7 @@
+---
+description: "Record policy evidence"
+---
+
 # Record policy evidence
 
 Read CLAUDE.md. Start from current records.

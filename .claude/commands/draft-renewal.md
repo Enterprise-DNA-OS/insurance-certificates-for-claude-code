@@ -1,3 +1,7 @@
+---
+description: "Draft evidence follow-up"
+---
+
 # Draft evidence follow-up
 
 Read CLAUDE.md. Start from current records.

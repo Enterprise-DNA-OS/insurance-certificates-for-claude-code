@@ -1,3 +1,7 @@
+---
+description: "Log a follow-up"
+---
+
 # Log a follow-up
 
 Read CLAUDE.md. Start from current records.

@@ -1,3 +1,7 @@
+---
+description: "Evidence review queue"
+---
+
 # Evidence review queue
 
 Read CLAUDE.md. Start from current records.

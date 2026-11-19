@@ -1,3 +1,7 @@
+---
+description: "Evidence and privacy checks"
+---
+
 # Evidence and privacy checks
 
 Read CLAUDE.md. Start from current records.

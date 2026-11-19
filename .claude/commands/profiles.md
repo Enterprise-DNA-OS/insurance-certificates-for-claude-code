@@ -1,3 +1,7 @@
+---
+description: "Contract requirements"
+---
+
 # Contract requirements
 
 Read CLAUDE.md. Start from current records.

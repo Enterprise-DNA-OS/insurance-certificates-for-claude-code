@@ -1,3 +1,7 @@
+---
+description: "Weekly insurance evidence meeting"
+---
+
 # Weekly insurance evidence meeting
 
 Read CLAUDE.md. Start from current records.

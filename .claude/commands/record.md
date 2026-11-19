@@ -1,3 +1,7 @@
+---
+description: "Supplier file"
+---
+
 # Supplier file
 
 Read CLAUDE.md. Start from current records.

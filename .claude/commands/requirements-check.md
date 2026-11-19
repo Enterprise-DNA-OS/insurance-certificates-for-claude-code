@@ -1,3 +1,7 @@
+---
+description: "Coverage gaps"
+---
+
 # Coverage gaps
 
 Read CLAUDE.md. Start from current records.

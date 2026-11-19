@@ -1,3 +1,7 @@
+---
+description: "Supplier responsibility"
+---
+
 # Supplier responsibility
 
 Read CLAUDE.md. Start from current records.

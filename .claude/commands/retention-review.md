@@ -1,3 +1,7 @@
+---
+description: "Review retention purpose"
+---
+
 # Review retention purpose
 
 Read CLAUDE.md. Start from current records.

@@ -1,3 +1,7 @@
+---
+description: "Make the desk yours"
+---
+
 # Make the desk yours
 
 Read CLAUDE.md and the current migration. Clarify the operator's requested field or rule from their brief. Inspect dependent commands, reports and exports. Write the next numbered migration, never edit an applied migration. Add a test that demonstrates the new rule and its failure case, update the CLI and relevant document specification, and run npm test. Back up the target database before applying npm run migrate. Present the actual before and after records and keep production secrets outside this repo. Do not weaken evidence review or enable sends as an incidental change.
